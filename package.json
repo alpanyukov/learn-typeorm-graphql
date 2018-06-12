@@ -1,0 +1,20 @@
+{
+    "name": "learn-typeorm",
+    "version": "0.0.1",
+    "description": "Awesome project developed with TypeORM.",
+    "devDependencies": {
+        "@types/node": "^10.3.2",
+        "ts-node": "6.1.1",
+        "typescript": "2.9.1"
+    },
+    "dependencies": {
+        "mongodb": "^3.0.10",
+        "reflect-metadata": "^0.1.10",
+        "typeorm": "0.2.7"
+    },
+    "scripts": {
+        "start": "ts-node src/index.ts"
+    },
+    "author": "Alexander Panyukov <olenevodec@gmail.com>",
+    "license": "MIT"
+}
