@@ -1,7 +1,6 @@
 import { request } from 'graphql-request';
-import { host } from './constants';
 import { User } from '../entity/User';
-import { createTypeOrmConnection } from '../utils/createTypeOrmConnection';
+import { startServer } from '../utils/startServer';
 
 const email = 'test@te2.te';
 const pass = '123';
@@ -12,7 +11,10 @@ mutation {
 }
 `;
 
-beforeAll(createTypeOrmConnection);
+const apiPort = 4001;
+const host = `http://localhost:${apiPort}`;
+
+beforeAll(() => startServer(apiPort));
 
 test('Register user', async () => {
     const response = await request(host, mutation);
