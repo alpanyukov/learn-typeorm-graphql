@@ -1,15 +1,36 @@
-{
-    "type": "mongodb",
-    "database": "learn-typeorm",
-    "host": "172.17.0.2",
-    "synchronize": true,
-    "logging": true,
-    "entities": ["src/entity/**/*.ts"],
-    "migrations": ["src/migration/**/*.ts"],
-    "subscribers": ["src/subscriber/**/*.ts"],
-    "cli": {
-        "entitiesDir": "src/entity",
-        "migrationsDir": "src/migration",
-        "subscribersDir": "src/subscriber"
+[
+    {
+        "name": "development",
+        "type": "mongodb",
+        "database": "learn-typeorm",
+        "host": "172.17.0.2",
+        "synchronize": true,
+        "logging": true,
+        "entities": ["src/entity/**/*.ts"],
+        "migrations": ["src/migration/**/*.ts"],
+        "subscribers": ["src/subscriber/**/*.ts"],
+        "cli": {
+            "entitiesDir": "src/entity",
+            "migrationsDir": "src/migration",
+            "subscribersDir": "src/subscriber"
+        }
+    },
+    {
+        "name": "test",
+        "type": "mongodb",
+        "database": "learn-typeorm-test",
+        "host": "172.17.0.2",
+        "synchronize": true,
+        "logging": false,
+        "dropSchema": true,
+        "cache": false,
+        "entities": ["src/entity/**/*.ts"],
+        "migrations": ["src/migration/**/*.ts"],
+        "subscribers": ["src/subscriber/**/*.ts"],
+        "cli": {
+            "entitiesDir": "src/entity",
+            "migrationsDir": "src/migration",
+            "subscribersDir": "src/subscriber"
+        }
     }
-}
+]
