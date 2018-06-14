@@ -7,7 +7,7 @@
     "devDependencies": {
         "@types/jest": "^23.0.2",
         "@types/node": "^10.3.2",
-        "@types/uuid": "^3.4.3",
+        "@types/yup": "^0.24.6",
         "gql2ts": "^1.8.0",
         "graphql-request": "^1.6.0",
         "jest": "^23.1.0",
@@ -26,7 +26,8 @@
         "mongodb": "^3.0.10",
         "reflect-metadata": "^0.1.10",
         "tslint-config-prettier": "^1.13.0",
-        "typeorm": "0.2.7"
+        "typeorm": "0.2.7",
+        "yup": "^0.25.1"
     },
     "scripts": {
         "start": "NODE_ENV=development nodemon --exec ts-node src/index.ts",
