@@ -5,6 +5,8 @@ import { createTypeOrmConnection } from './utils/createTypeOrmConnection';
 import * as path from 'path';
 import * as fs from 'fs';
 import { GraphQLSchema } from 'graphql';
+import * as Redis from 'ioredis';
+import { User } from './entity/User';
 
 export const startServer = async (port = 4000) => {
     const schemas: GraphQLSchema[] = [];
@@ -15,7 +17,26 @@ export const startServer = async (port = 4000) => {
         schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
     });
 
-    const server = new GraphQLServer({ schema: mergeSchemas({ schemas }) });
+    const redis = new Redis(6379, 'localhost');
+
+    const server = new GraphQLServer({
+        schema: mergeSchemas({ schemas }),
+        context: ({ request }) => ({
+            redis,
+            url: request.protocol + '://' + request.get('host')
+        })
+    });
+
+    server.express.get('/confirm/:id', async (req, res) => {
+        const { id } = req.params;
+        const userId = await redis.get(id);
+        if (userId) {
+            await User.update({ id: userId }, { isConfirmed: true });
+            res.send('ok');
+        } else {
+            res.send('invalid');
+        }
+    });
 
     await createTypeOrmConnection();
 
