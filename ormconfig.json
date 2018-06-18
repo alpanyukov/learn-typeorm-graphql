@@ -1,9 +1,11 @@
 [
     {
         "name": "development",
-        "type": "mongodb",
+        "type": "postgres",
         "database": "learn-typeorm",
         "host": "localhost",
+        "username": "admin",
+        "password": "admin",
         "synchronize": true,
         "logging": true,
         "entities": ["src/entity/**/*.ts"],
@@ -17,9 +19,11 @@
     },
     {
         "name": "test",
-        "type": "mongodb",
+        "type": "postgres",
         "database": "learn-typeorm-test",
         "host": "localhost",
+        "username": "admin",
+        "password": "admin",
         "synchronize": true,
         "logging": false,
         "dropSchema": true,

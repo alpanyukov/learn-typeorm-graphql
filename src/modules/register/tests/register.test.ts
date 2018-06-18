@@ -1,10 +1,14 @@
 import { request } from 'graphql-request';
 import { User } from '../../../entity/User';
-import { startServer } from '../../../startServer';
 import { duplicateEmail, passwordMinLength, emailNotValid } from '../errorMessages';
+import { createTypeOrmConnection } from '../../../utils/createTypeOrmConnection';
 
 const email = 'test@te2.te';
 const pass = '1234';
+
+// Придетсмя подождать пока выставиться соединение
+// Иначе первый тест валится
+beforeAll(() => createTypeOrmConnection());
 
 const mutation = (email: string, pass: string) => `
 mutation {
@@ -15,13 +19,9 @@ mutation {
 }
 `;
 
-const apiPort = 4001;
-const host = `http://localhost:${apiPort}`;
-
-beforeAll(() => startServer(apiPort));
 describe('user registration', () => {
     it('register success', async () => {
-        const response = await request(host, mutation(email, pass));
+        const response = await request(process.env.TEST_HOST as string, mutation(email, pass));
         expect(response).toEqual({ register: null });
         const users = await User.find({ where: { email } });
         expect(users).toHaveLength(1);
@@ -31,22 +31,25 @@ describe('user registration', () => {
     });
 
     it('cant register twice', async () => {
-        await request(host, mutation(email, pass));
-        const response = await request(host, mutation(email, pass));
+        await request(process.env.TEST_HOST as string, mutation(email, pass));
+        const response = await request(process.env.TEST_HOST as string, mutation(email, pass));
         expect(response).toMatchObject({
             register: [{ message: duplicateEmail, path: 'email' }]
         });
     });
 
     it('password length more then 3', async () => {
-        const response = await request(host, mutation(email, '12'));
+        const response = await request(process.env.TEST_HOST as string, mutation(email, '12'));
         expect(response).toMatchObject({
             register: [{ path: 'password', message: passwordMinLength(3) }]
         });
     });
 
     it('email is validating', async () => {
-        const response = await request(host, mutation('1231231432r', pass));
+        const response = await request(
+            process.env.TEST_HOST as string,
+            mutation('1231231432r', pass)
+        );
         expect(response).toMatchObject({
             register: [{ path: 'email', message: emailNotValid }]
         });

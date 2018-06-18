@@ -5,30 +5,32 @@
     "license": "MIT",
     "description": "Awesome project developed with TypeORM.",
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.1",
         "@types/ioredis": "^3.2.8",
         "@types/jest": "^23.0.2",
         "@types/node": "^10.3.2",
+        "@types/node-fetch": "^2.1.1",
         "@types/uuid": "^3.4.3",
         "@types/yup": "^0.24.6",
         "gql2ts": "^1.8.0",
         "graphql-request": "^1.6.0",
         "jest": "^23.1.0",
+        "node-fetch": "^2.1.2",
         "nodemon": "^1.17.5",
         "ts-jest": "^22.4.6",
         "ts-node": "6.1.1",
+        "tslint-config-prettier": "^1.13.0",
         "typescript": "2.9.1"
     },
     "dependencies": {
-        "@types/bcryptjs": "^2.4.1",
         "bcryptjs": "^2.4.3",
         "graphql": "^0.13.2",
         "graphql-import": "^0.6.0",
         "graphql-tools": "^3.0.2",
         "graphql-yoga": "^1.14.7",
         "ioredis": "^3.2.2",
-        "mongodb": "^3.0.10",
+        "pg": "^7.4.3",
         "reflect-metadata": "^0.1.10",
-        "tslint-config-prettier": "^1.13.0",
         "typeorm": "0.2.7",
         "uuid": "^3.2.1",
         "yup": "^0.25.1"
@@ -39,6 +41,7 @@
         "gen:schema-types": "gql2ts ./src/schema.graphql -o ./src/types/schema.d.ts"
     },
     "jest": {
+        "globalSetup": "./testSetup/initSetup",
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },

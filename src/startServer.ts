@@ -17,6 +17,8 @@ export const startServer = async (port = 4000) => {
         schemas.push(makeExecutableSchema({ resolvers, typeDefs }));
     });
 
+    await createTypeOrmConnection();
+
     const redis = new Redis(6379, 'localhost');
 
     const server = new GraphQLServer({
@@ -32,13 +34,12 @@ export const startServer = async (port = 4000) => {
         const userId = await redis.get(id);
         if (userId) {
             await User.update({ id: userId }, { isConfirmed: true });
+            await redis.del(id);
             res.send('ok');
         } else {
             res.send('invalid');
         }
     });
-
-    await createTypeOrmConnection();
 
     const app = await server.start({ port });
     console.log(`Server is running on localhost:${port}`);

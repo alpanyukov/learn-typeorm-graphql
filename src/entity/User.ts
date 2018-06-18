@@ -1,14 +1,14 @@
-import { Entity, Column, BaseEntity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class User extends BaseEntity {
-    @ObjectIdColumn() id: ObjectID;
+    @PrimaryGeneratedColumn('uuid') id: string;
 
     @Column('varchar', { length: 255 })
     email: string;
 
     @Column('text') password: string;
 
-    @Column('boolean', { default: false })
+    @Column('bool', { default: false })
     isConfirmed: boolean;
 }
