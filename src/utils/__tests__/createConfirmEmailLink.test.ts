@@ -3,16 +3,25 @@ import { createConfirmEmailLink } from '../createConfirmEmailLink';
 import { User } from '../../entity/User';
 import * as Redis from 'ioredis';
 import fetch from 'node-fetch';
+import { Connection } from 'typeorm';
 
 let userId: string;
 
+// Придетсмя подождать пока выставиться соединение
+// Иначе первый тест валится
+let conn: Connection;
+
 beforeAll(async () => {
-    await createTypeOrmConnection();
+    conn = await createTypeOrmConnection();
     const user = await User.create({
         email: '123@qw3e@we',
         password: '12345'
     }).save();
     userId = user.id;
+});
+
+afterAll(async () => {
+    await conn.close();
 });
 
 describe('createConfirmEmailLink', () => {
@@ -26,11 +35,5 @@ describe('createConfirmEmailLink', () => {
         const user = await User.findOne(userId);
         expect(user).toBeDefined();
         expect((user as User).isConfirmed).toBeTruthy();
-    });
-
-    it('show invalid for unknown userId', async () => {
-        const response = await fetch(process.env.TEST_HOST + '/confirm/123');
-        const result = await response.text();
-        expect(result).toBe('invalid');
     });
 });

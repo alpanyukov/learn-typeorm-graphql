@@ -2,13 +2,21 @@ import { request } from 'graphql-request';
 import { User } from '../../../entity/User';
 import { duplicateEmail, passwordMinLength, emailNotValid } from '../errorMessages';
 import { createTypeOrmConnection } from '../../../utils/createTypeOrmConnection';
+import { Connection } from 'typeorm';
 
 const email = 'test@te2.te';
 const pass = '1234';
 
 // Придетсмя подождать пока выставиться соединение
 // Иначе первый тест валится
-beforeAll(() => createTypeOrmConnection());
+let conn: Connection;
+beforeAll(async () => {
+    conn = await createTypeOrmConnection();
+});
+
+afterAll(async () => {
+    await conn.close();
+});
 
 const mutation = (email: string, pass: string) => `
 mutation {

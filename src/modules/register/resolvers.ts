@@ -53,7 +53,7 @@ export const resolvers: ResolverMap = {
 
             await user.save();
 
-            const link = await createConfirmEmailLink('', user.id.toHexString(), redis);
+            const link = await createConfirmEmailLink('', user.id, redis);
             console.log(link);
 
             return null;
