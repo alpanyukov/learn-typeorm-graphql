@@ -78,6 +78,12 @@
   dependencies:
     "@types/express" "*"
 
+"@types/dotenv@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/dotenv/-/dotenv-4.0.3.tgz#ebcfc40da7bc0728b705945b7db48485ec5b4b67"
+  dependencies:
+    "@types/node" "*"
+
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
@@ -138,6 +144,13 @@
 "@types/node@^9.4.6":
   version "9.6.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.21.tgz#4563c26a53531c5aca943065fcdf2dd562f63cd4"
+
+"@types/nodemailer@^4.6.2":
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.2.tgz#4a0cf246846cc5178270d354a252394a16860191"
+  dependencies:
+    "@types/events" "*"
+    "@types/node" "*"
 
 "@types/range-parser@*":
   version "1.2.2"
@@ -1268,6 +1281,10 @@ dotenv@^0.4.0:
 dotenv@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
+
+dotenv@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -3360,6 +3377,10 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+nodemailer@^4.6.7:
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-4.6.7.tgz#b68de7f36d65618bdeeeb76234e3547d51266373"
 
 nodemon@^1.17.5:
   version "1.17.5"
