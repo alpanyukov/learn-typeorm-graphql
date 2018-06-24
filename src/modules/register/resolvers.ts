@@ -25,7 +25,7 @@ export const resolvers: ResolverMap = {
         test: () => 'test'
     },
     Mutation: {
-        register: async (_, userRequest: GQL.IRegisterOnMutationArguments, { redis }) => {
+        register: async (_, userRequest: GQL.IRegisterOnMutationArguments, { redis, url }) => {
             try {
                 await schema.validate(userRequest, { abortEarly: false });
             } catch (error) {
@@ -54,8 +54,10 @@ export const resolvers: ResolverMap = {
 
             await user.save();
 
-            const link = await createConfirmEmailLink('http://localhost:4000', user.id, redis);
-            await sendConfirmEmail(user.email, link);
+            if (process.env.NODE_ENV !== 'test') {
+                const link = await createConfirmEmailLink(url, user.id, redis);
+                await sendConfirmEmail(user.email, link);
+            }
 
             return null;
         }

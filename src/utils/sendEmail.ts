@@ -1,12 +1,6 @@
 import * as nodeMailer from 'nodemailer';
 
 export const sendEmail = (email: string, subject: string, body: string) => {
-    console.log({
-        auth: {
-            user: process.env.SEND_FROM_EMAIL,
-            pass: process.env.SEND_FROM_PASS
-        }
-    });
     const transporter = nodeMailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
