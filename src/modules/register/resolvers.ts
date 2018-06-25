@@ -1,4 +1,3 @@
-import { hash } from 'bcryptjs';
 import * as yup from 'yup';
 
 import { ResolverMap } from '../../types/graphql-utils';
@@ -45,11 +44,9 @@ export const resolvers: ResolverMap = {
                     }
                 ];
             }
-
-            const hashedPassword = await hash(userRequest.password, 10);
             const user = User.create({
                 email: userRequest.email,
-                password: hashedPassword
+                password: userRequest.password
             });
 
             await user.save();

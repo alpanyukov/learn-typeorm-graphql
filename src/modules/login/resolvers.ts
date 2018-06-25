@@ -10,7 +10,7 @@ export const resolvers: ResolverMap = {
         test2: () => 'test2'
     },
     Mutation: {
-        login: async (_, { email, password }: GQL.ILoginOnMutationArguments) => {
+        login: async (_, { email, password }: GQL.ILoginOnMutationArguments, { session }) => {
             const user = await User.findOne({ where: { email } });
 
             if (!user) return errorResponse;
@@ -20,6 +20,9 @@ export const resolvers: ResolverMap = {
             const isValidPass = await compare(password, user.password);
 
             if (!isValidPass) return errorResponse;
+
+            // login successful
+            session.userId = user.id;
 
             return null;
         }
