@@ -45,7 +45,13 @@ const meQuery = `
 describe('me', () => {
     const host = process.env.TEST_HOST as string;
 
-    it('cant get user if not logged in', () => {});
+    it('cant get user if not logged in', async () => {
+        const { data } = await axios.post(host, {
+            query: meQuery
+        });
+        expect(data.data.me).toBeNull();
+        expect(data.errors).toHaveLength(1);
+    });
 
     it('can get current user', async () => {
         await axios.post(
