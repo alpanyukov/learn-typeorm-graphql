@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { createTypeOrmConnection } from '../../utils/createTypeOrmConnection';
-import { Connection, TreeRepository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { User } from '../../entity/User';
+import { TestClient } from '../../utils/TestClient';
 
-let userId: string;
 const email = 'test@tet.te';
 const password = '12345';
 
@@ -12,69 +11,29 @@ const password = '12345';
 let conn: Connection;
 beforeAll(async () => {
     conn = await createTypeOrmConnection();
-    const user = await User.create({
+    await User.create({
         email,
         password,
         isConfirmed: true
     }).save();
-    userId = user.id;
 });
 
 afterAll(async () => {
     await conn.close();
 });
 
-const loginMutation = (email: string, pass: string) => `
-mutation {
-    login(email: "${email}", password: "${pass}") {
-        path,
-        message
-    }
-}
-`;
-
-const logoutMutation = `
-mutation {
-    logout 
-}
-`;
-
 describe('logout', () => {
     const host = process.env.TEST_HOST as string;
 
     it('can logout', async () => {
-        await axios.post(
-            host,
-            {
-                query: loginMutation(email, password)
-            },
-            { withCredentials: true }
-        );
-        const { data } = await axios.post(
-            host,
-            {
-                query: logoutMutation
-            },
-            { withCredentials: true }
-        );
+        const client = new TestClient(host);
 
-        expect(data.data.logout).toBeTruthy();
+        await client.login(email, password);
+        const { data } = await client.logout();
 
-        const { data: meResponse } = await axios.post(
-            host,
-            {
-                query: `
-                {
-                    me {
-                        email,
-                        id
-                    }
-                }
-                `
-            },
-            { withCredentials: true }
-        );
+        expect(data.logout).toBeTruthy();
+        const { data: meResponse } = await client.me();
 
-        expect(meResponse.data.me).toBeNull();
+        expect(meResponse.me).toBeNull();
     });
 });
