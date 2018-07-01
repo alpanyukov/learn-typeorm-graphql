@@ -7,6 +7,7 @@ import { createTypeOrmConnection } from './utils/createTypeOrmConnection';
 import { redis } from './redis';
 import { confirmEmail } from './routes/confirmEmail';
 import { genSchema } from './utils/genSchema';
+import { REDIS_SESSION_PREFIX } from './constants';
 
 export const startServer = async (port = 4000) => {
     await createTypeOrmConnection();
@@ -16,7 +17,8 @@ export const startServer = async (port = 4000) => {
         context: ({ request }) => ({
             redis,
             url: request.protocol + '://' + request.get('host'),
-            session: request.session
+            session: request.session,
+            req: request
         })
     });
 
@@ -25,7 +27,8 @@ export const startServer = async (port = 4000) => {
     server.express.use(
         session({
             store: new SessionStore({
-                client: redis as any
+                client: redis as any,
+                prefix: REDIS_SESSION_PREFIX
             }),
             name: 'sid',
             secret: process.env.SESSION_SECRET as string,

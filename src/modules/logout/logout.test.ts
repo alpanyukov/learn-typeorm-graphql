@@ -25,6 +25,18 @@ afterAll(async () => {
 describe('logout', () => {
     const host = process.env.TEST_HOST as string;
 
+    it('multiple session', async () => {
+        const session1 = new TestClient(host);
+        const session2 = new TestClient(host);
+
+        await session1.login(email, password);
+        await session2.login(email, password);
+
+        expect(await session1.me()).toEqual(await session2.me());
+        await session1.logout();
+        expect(await session1.me()).toEqual(await session2.me());
+    });
+
     it('can logout', async () => {
         const client = new TestClient(host);
 
