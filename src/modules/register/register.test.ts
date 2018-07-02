@@ -43,7 +43,7 @@ describe('user registration', () => {
     it('password length more then 3', async () => {
         const { data } = await client.register(email, '12');
         expect(data).toMatchObject({
-            register: [{ path: 'password', message: passwordMinLength(3) }]
+            register: [{ path: 'password', message: passwordMinLength }]
         });
     });
 

@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import { ResolverMap } from '../../types/graphql-utils';
 import { User } from '../../entity/User';
-import { invalidLoginOrPass, needConfirmEmail } from './errorMessages';
+import { invalidLoginOrPass, needConfirmEmail, forgorPasswordLockedError } from './errorMessages';
 import { USER_SESSION_ID_PREFIX } from '../../constants';
 
 const errorResponse = [{ path: 'email', message: invalidLoginOrPass }];
@@ -21,6 +21,9 @@ export const resolvers: ResolverMap = {
             if (!user) return errorResponse;
 
             if (!user.isConfirmed) return [{ path: 'email', message: needConfirmEmail }];
+
+            if (user.isForgotPasswordLocked)
+                return [{ path: 'email', message: forgorPasswordLockedError }];
 
             const isValidPass = await compare(password, user.password);
 

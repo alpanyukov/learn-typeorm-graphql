@@ -42,7 +42,7 @@ declare namespace GQL {
 
     interface IMutation {
         __typename: 'Mutation';
-        sendForgotPasswordEmail: boolean | null;
+        sendForgotPasswordEmail: Array<IError>;
         forgotPasswordChange: Array<IError>;
         login: Array<IError>;
         logout: boolean | null;

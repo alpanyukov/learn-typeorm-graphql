@@ -37,3 +37,12 @@ export const sendConfirmEmail = (email: string, confirmLink: string) =>
         <center><a href="${confirmLink}">Подтверждение</a></center>
         `
     );
+
+export const sendForgotEmail = (email: string, forgotLink: string) =>
+    sendEmail(
+        email,
+        'Forgot Password',
+        `
+        <center><a href="${forgotLink}">Сменить пароль</a></center>
+        `
+    );
