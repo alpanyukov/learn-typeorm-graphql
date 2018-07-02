@@ -78,4 +78,33 @@ export class TestClient {
             }
         });
     }
+
+    sendForgotPasswordEmail(email: string) {
+        return r.post(this.url, {
+            ...this.options,
+            body: {
+                query: `
+                mutation {
+                    sendForgotPasswordEmail(email: "${email}")
+                }
+                `
+            }
+        });
+    }
+
+    forgotPasswordChange(newPassword: string, key: string) {
+        return r.post(this.url, {
+            ...this.options,
+            body: {
+                query: `
+                mutation {
+                    forgotPasswordChange(newPassword: "${newPassword}", key: "${key}") {
+                        path,
+                        message
+                    }
+                }
+                `
+            }
+        });
+    }
 }
