@@ -8,6 +8,8 @@ import { redis } from './redis';
 import { confirmEmail } from './routes/confirmEmail';
 import { genSchema } from './utils/genSchema';
 import { REDIS_SESSION_PREFIX } from './constants';
+import * as RateLimit from 'express-rate-limit';
+import * as RateLimitRedis from 'rate-limit-redis';
 
 export const startServer = async (port = 4000) => {
     await createTypeOrmConnection();
@@ -23,6 +25,17 @@ export const startServer = async (port = 4000) => {
     });
 
     const SessionStore = connectRedis(session);
+
+    const rateLimit = new RateLimit({
+        store: new RateLimitRedis({
+            client: redis
+        }),
+        windowMs: 16 * 60 * 1000,
+        max: 100,
+        delayMs: 0
+    });
+
+    server.express.use(rateLimit);
 
     server.express.use(
         session({

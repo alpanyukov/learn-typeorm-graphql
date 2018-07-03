@@ -4,3 +4,4 @@ node_modules/
 build/
 temp/
 .env
+yarn-error.log
