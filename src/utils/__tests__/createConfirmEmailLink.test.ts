@@ -1,9 +1,9 @@
-import { createTypeOrmConnection } from '../createTypeOrmConnection';
 import { createConfirmEmailLink } from '../createConfirmEmailLink';
 import { User } from '../../entity/User';
 import * as Redis from 'ioredis';
 import fetch from 'node-fetch';
 import { Connection } from 'typeorm';
+import { createTestConnection } from '../../../testSetup/createTestConnection';
 
 let userId: string;
 
@@ -12,7 +12,7 @@ let userId: string;
 let conn: Connection;
 
 beforeAll(async () => {
-    conn = await createTypeOrmConnection();
+    conn = await createTestConnection();
     const user = await User.create({
         email: '123@qw3e@we',
         password: '12345'

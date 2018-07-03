@@ -1,7 +1,7 @@
-import { createTypeOrmConnection } from '../../utils/createTypeOrmConnection';
 import { Connection } from 'typeorm';
 import { User } from '../../entity/User';
 import { TestClient } from '../../utils/TestClient';
+import { createTestConnection } from '../../../testSetup/createTestConnection';
 
 let userId: string;
 const email = 'test@tet.te';
@@ -11,7 +11,7 @@ const password = '12345';
 // Иначе первый тест валится
 let conn: Connection;
 beforeAll(async () => {
-    conn = await createTypeOrmConnection();
+    conn = await createTestConnection();
     const user = await User.create({
         email,
         password,

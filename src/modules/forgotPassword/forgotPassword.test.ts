@@ -1,4 +1,3 @@
-import { createTypeOrmConnection } from '../../utils/createTypeOrmConnection';
 import { Connection } from 'typeorm';
 import * as Redis from 'ioredis';
 import { User } from '../../entity/User';
@@ -8,6 +7,7 @@ import { forgotPasswordLockAccount } from '../../utils/forgotPasswordLockAccount
 import { forgorPasswordLockedError } from '../login/errorMessages';
 import { expiredKey } from './errorMessages';
 import { passwordMinLength } from '../register/errorMessages';
+import { createTestConnection } from '../../../testSetup/createTestConnection';
 
 const email = 'test@tet.te';
 const password = '12345';
@@ -19,7 +19,7 @@ const redis = new Redis();
 let conn: Connection;
 let userId: string;
 beforeAll(async () => {
-    conn = await createTypeOrmConnection();
+    conn = await createTestConnection();
     const user = await User.create({
         email,
         password,

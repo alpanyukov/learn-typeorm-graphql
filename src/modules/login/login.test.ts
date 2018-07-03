@@ -1,14 +1,14 @@
 import { User } from '../../entity/User';
-import { createTypeOrmConnection } from '../../utils/createTypeOrmConnection';
 import { Connection } from 'typeorm';
 import { invalidLoginOrPass, needConfirmEmail } from './errorMessages';
 import { TestClient } from '../../utils/TestClient';
+import { createTestConnection } from '../../../testSetup/createTestConnection';
 
 // Придетсмя подождать пока выставиться соединение
 // Иначе первый тест валится
 let conn: Connection;
 beforeAll(async () => {
-    conn = await createTypeOrmConnection();
+    conn = await createTestConnection();
 });
 
 afterAll(async () => {

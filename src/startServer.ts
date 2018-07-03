@@ -10,9 +10,12 @@ import { genSchema } from './utils/genSchema';
 import { REDIS_SESSION_PREFIX } from './constants';
 import * as RateLimit from 'express-rate-limit';
 import * as RateLimitRedis from 'rate-limit-redis';
+import { createTestConnection } from '../testSetup/createTestConnection';
 
 export const startServer = async (port = 4000) => {
-    await createTypeOrmConnection();
+    if (process.env.NODE_ENV === 'test') {
+        await redis.flushall();
+    }
 
     const server = new GraphQLServer({
         schema: genSchema(),
@@ -61,6 +64,12 @@ export const startServer = async (port = 4000) => {
     };
 
     server.express.get('/confirm/:id', confirmEmail);
+
+    if (process.env.NODE_ENV === 'test') {
+        await createTestConnection(true);
+    } else {
+        await createTypeOrmConnection();
+    }
 
     const app = await server.start({ port, cors });
     console.log(`Server is running on localhost:${port}`);
