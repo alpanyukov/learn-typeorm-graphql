@@ -7,9 +7,6 @@ import { USER_SESSION_ID_PREFIX } from '../../constants';
 const errorResponse = [{ path: 'email', message: invalidLoginOrPass }];
 
 export const resolvers: ResolverMap = {
-    Query: {
-        test2: () => 'test2'
-    },
     Mutation: {
         login: async (
             _,

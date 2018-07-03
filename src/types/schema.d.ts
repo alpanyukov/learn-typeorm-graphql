@@ -22,16 +22,7 @@ declare namespace GQL {
 
     interface IQuery {
         __typename: 'Query';
-        test4: string | null;
-        test2: string | null;
-        test3: string | null;
         me: IUser | null;
-        test: string | null;
-        hello: string;
-    }
-
-    interface IHelloOnQueryArguments {
-        name?: string | null;
     }
 
     interface IUser {

@@ -16,9 +16,6 @@ const schema = yup.object().shape({
 });
 
 export const resolvers: ResolverMap = {
-    Query: {
-        test4: () => 'test4'
-    },
     Mutation: {
         sendForgotPasswordEmail: async (
             _,
